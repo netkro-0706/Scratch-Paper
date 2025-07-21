@@ -1,0 +1,23 @@
+Node에서 사용하기 쉬운 각종 편의 기능을 모아둔 메서드
+deprecated, promisify가 자주 사용됨
+
+# deprecated는 라이브러리를 만들 때 많이 사용된다.
+수정된 버전, 함수가 나왔을 경우 경고를 출력되게 하는 메서드.
+
+# promisify는 Nodejs에서 Promise를 사용가능하게 해준다.
+Nodejs는 아직 callback기반으로 promise지원이 안된다. 그러므로 callback함수를 promisify로 감싸는 것으로 promise를 사용가능하게 해준다.
+단, callback이 (error, data) => {} 형식이어야 사용가능하다.
+
+===========================
+const randomBytesPromise = util.promisify(crypto.randomBytes)
+randomBytesPromise(64)
+  .then((buf) => {
+    console.log("randomBytes", buf.toString("base64"))
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+===========================
+
+# callbackify
+promise를 callback으로 바꿔주는 메서드
