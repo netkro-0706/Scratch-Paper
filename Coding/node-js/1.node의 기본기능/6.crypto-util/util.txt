@@ -19,5 +19,5 @@ randomBytesPromise(64)
   })
 ===========================
 
-# callbackify
+# callbackify(사용하는 경우는 없을듯)
 promise를 callback으로 바꿔주는 메서드
