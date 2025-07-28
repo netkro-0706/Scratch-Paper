@@ -1,0 +1,7 @@
+threadpool
+노드의 백그라운드는 기본적으로 4개씩 돌아간다. 
+작업을 효율적이게 처리하기 위해 미리 만들어 놓은 스레드의 집합이며 이것을 threadpool이라고 한다.
+
+SET UV_THREADPOOL_SIZE = 8 - 윈도우
+UV_THREADPOOL_SIZE = 8 - 맥북
+위의 명령어를 입력하는 것으로 백그라운드에서 돌아갈 갯수를 지정할 수 있다.
