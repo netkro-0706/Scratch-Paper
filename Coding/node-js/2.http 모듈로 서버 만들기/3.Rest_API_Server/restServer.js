@@ -21,6 +21,10 @@ http
             "Content-Type": "application/json; charset=utf-8",
           })
           return res.end(JSON.stringify(users))
+        } else if (req.url === "/ect") {
+          const data = await fs.readFile(path.join(__dirname, "ext.html"))
+          res.writeHead(200, { "Content-type": "text/html; charset=utf-8" })
+          return res.end(data)
         }
         // /도 /about도 /users도 아니면
         try {
