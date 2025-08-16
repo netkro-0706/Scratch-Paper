@@ -23,13 +23,33 @@ app.use(
   }
 )
 
-app.use("/error", () => {
-  throw new Error("에러 발생")
+app.use("/error", (req, res, next) => {
+  try {
+    // 일부러 에러 발생
+    console.log(errorrorororor)
+  } catch (err) {
+    next(err)
+  }
 })
 
 // 경로 설정 ===================
+app.get(
+  "/",
+  (req, res, next) => {
+    res.send("Hello express")
+    if (true) {
+      next("route")
+    } else {
+      next()
+    }
+  },
+  (req, res) => {
+    console.log("첫번째 라우터")
+  }
+)
+
 app.get("/", (req, res) => {
-  res.send("Hello express")
+  console.log("두번째 라우터")
 })
 
 app.get("/error", (req, res) => {

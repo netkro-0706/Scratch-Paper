@@ -10,7 +10,7 @@ app.get, app.post등은 라우터 등록 함수이다.
 라우터에 장착할 수 있는 함수 같은 것
 app.use는 미들웨어 등록 함수이다.
 
-### next
+## next
 다음 동작을 실행 시키고 싶을 경우 지정
 next가 없다면 다음 라우터는 동작되지 않고 바로 끝나버린다. (app.use만 실행되고 app.get은 안되는 등...)
 
@@ -30,6 +30,12 @@ app.use((req, res, next) => {
   console.log("모든 요청에 실행 가능3")
   next()
 })
+
+### next 활용법
+next("route") 다음 라우터로 넘어간다.
+next(error) catch문에 사용 했을시 에러를 넘긴다.
+next() 다음 함수로 넘긴다.
+
 
 ### route parameter(:param)
 다음과 같이 경로를 무수히 만들기가 어렵기에 경로를 매개변수로 지정한다.
