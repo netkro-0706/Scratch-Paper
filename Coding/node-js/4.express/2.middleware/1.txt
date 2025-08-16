@@ -1,0 +1,75 @@
+# router
+app.get('/user', (req, res) => { ... });
+여러 라우트(경로와 핸들러)를 관리하는 객체 또는 기능을 라우터라고 한다.
+app.get, app.post등은 라우터 등록 함수이다.
+
+# route
+'/user' 경로 같은 값들
+
+# 미들웨어
+라우터에 장착할 수 있는 함수 같은 것
+app.use는 미들웨어 등록 함수이다.
+
+### next
+다음 동작을 실행 시키고 싶을 경우 지정
+next가 없다면 다음 라우터는 동작되지 않고 바로 끝나버린다. (app.use만 실행되고 app.get은 안되는 등...)
+
+app.use((req, res, next) => {
+  console.log("모든 요청에 실행 가능")
+  next()
+})
+
+연속으로도 사용이 가능하다.
+app.use((req, res, next) => {
+  console.log("모든 요청에 실행 가능")
+  next()
+},(req, res, next) => {
+  console.log("모든 요청에 실행 가능2")
+  next()
+},(req, res, next) => {
+  console.log("모든 요청에 실행 가능3")
+  next()
+})
+
+### route parameter(:param)
+다음과 같이 경로를 무수히 만들기가 어렵기에 경로를 매개변수로 지정한다.
+경로값은 req.params로 받아올 수 있다.
+app.get("/category/kim", (req, res) => {
+app.get("/category/lee", (req, res) => {
+app.get("/category/park", (req, res) => {
+
+app.get("/category/:name", (req, res) => {
+  res.send(`hello ${req.params.name}`)
+})
+
+* 코드 작성시 라우트 파라매터는 아래쪽에 만들자
+코드는 위에서 아래로 실행이 된다.
+아래와 같은 코드가 있다면 라우트 파라매터가 먼저 표시된다.
+
+app.get("/category/:name", (req, res) => {
+app.get("/category/park", (req, res) => {
+
+// status를 지정하여 상황에 맞게 동작을 시킬 수 있지만
+// 400번대와 500번대 에러는 보안상 실무에서 잘 사용하지 않는다.
+// 200번대만 잘 사용
+app.use((req, res, next) => {
+  res.status(404).send("404입니다.")
+})
+
+
+## 사용 주의
+res.send, res.sendFile, res.json은 전부 합쳐서 단 한번만 사용을 해야한다.
+
+// 아래와 같이 사용X
+res.send();
+res.sendFile();
+
+// 아래와 같이 사용X
+app.use((req, res, next) => {
+  res.send("hello");
+})
+app.get("*", (req, res)=>{
+  res.send("world");
+})
+
+res.writeHead, res.setHeader는 send보다 앞에 써야한다. 이미 보내고(send) 나서 헤드설정은 말이 안된다.
