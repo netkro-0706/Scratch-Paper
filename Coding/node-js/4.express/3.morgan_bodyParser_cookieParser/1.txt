@@ -1,0 +1,62 @@
+npm i morgan cookie-parser express-session
+
+body parser도 있는데 요즘은 안쓴다.
+
+### morgan
+Node.js/Express에서 HTTP 요청 로그를 자동으로 기록해주는 미들웨어다.
+
+app.use(morgan("dev"))
+이와 같이 설정해주면 아래와 같은 로그가 나온다.
+GET / 304 5.964 ms - -
+
+
+app.use(morgan("combined"))
+브라우저 정보나 시간대 같은 더 상세한 로그가 나온다.
+
+
+### cookie-parser
+Express에서 요청(Request)에 포함된 쿠키를 쉽게 읽을 수 있게 해주는 미들웨어
+클라이언트가 보낸 쿠키를 req.cookies 객체로 변환해줌
+서명된(signed) 쿠키도 지원
+
+
+### express의 cookie
+이전과 같이 길게 만들었던 코드를 짧고 보기 쉽게 작성 할 수 있게 해준다.
+// "Set-Cookie": `name=${encodeURIComponent(name)}; Expires=${expires.toGMTString()}; HttpOnly; Path=/`,
+  res.cookie("name", encodeURIComponent(name), {
+    expires: new Date(),
+    httpOnly: true,
+    path: "/",
+  })
+
+clearCookie를 통해 쉽게 쿠키를 삭제 할 수 있다.
+res.clearCookie("name", encodeURIComponent(name), {
+    httpOnly: true,
+    path: "/",
+  })
+
+## 그 외 필수
+
+### express.json
+app.use(express.json()) // JSON 데이터 파싱
+req.body로 꺼낼 수 있다.
+
+
+### express.urlencoded
+submit된 form을 파싱해준다.
+
+app.use(express.urlencoded({ extended: true })) // URL 인코딩된 데이터 파싱
+extended는 가능하면 true로 설정한다.
+  - extended: true
+    qs 라이브러리를 사용
+    중첩된 객체(복잡한 구조)의 폼 데이터도 파싱 가능
+    예: user[name]=akira → { user: { name: 'akira' } }
+  - extended: false
+    querystring 모듈 사용
+    단순한 key-value만 파싱 가능
+    
+단, image는 파싱이 안되어 다른 미들웨어를 사용해야 한다.
+
+
+
+

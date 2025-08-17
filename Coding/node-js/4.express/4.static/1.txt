@@ -1,0 +1,19 @@
+# static
+정적 파일을 제공하는 미들웨어
+
+app.use("요청 경로", express.static("실제 경로"))
+app.use("/", express.static(path.join(__dirname, "public")))
+
+클라이언트에서 localhost:3000/hello.css으로 요청을 해도
+실제로는 4.static/pulic/hello.css로 요청이 되기 때문에 보안상으로도 좋다.
+
+
+## 미들웨어의 순서
+웬만한 미들웨어들에는 next가 포함되어있다.
+하지만 static에는 경로(public)상에 요청 경로가 있다면 next 없으면 중단해버리기 때문에 이점을 생각해서 코드 순서를 배치하는 것이 좋다.
+
+app.use(morgan("dev"))
+app.use("/", express.static(path.join(__dirname, "public")))
+app.use(cookieParser("Kpassword"))
+app.use(express.json()) // JSON 데이터 파싱
+app.use(express.urlencoded({ extended: true })) // URL 인코딩된 데이터 파싱
