@@ -1,0 +1,16 @@
+# 라우터 분리하기
+
+라우터를 파일별로 분리해서 사용하는 방식
+routes
+ㄴindex.js
+ㄴuser.js
+이런식으로 파일을 생성
+
+app.js에서
+const indexRouter = require("./routes")
+const userRouter = require("./routes/user")
+만든 파일들을 불러오고
+
+app.use를 사용하여 사용
+app.use("/", indexRouter)
+app.use("/user", userRouter)

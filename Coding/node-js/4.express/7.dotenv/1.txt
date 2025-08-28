@@ -1,0 +1,12 @@
+# dotenv
+
+환경변수를 쉽게 관리할 수 있게 해주는 패키지
+비밀키 등을 보관이 가능
+
+비밀키를 .env에 보관
+
+const dotenv = require("dotenv")
+dotenv.config() // .env 파일의 내용을 process.env에 넣어준다.
+
+app.use(cookieParser(process.env.COOKIE_SECRET))
+같은 방식으로 사용
