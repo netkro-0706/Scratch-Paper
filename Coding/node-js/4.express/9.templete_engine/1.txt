@@ -1,0 +1,84 @@
+# templete Engine
+
+HTML의 정적인 단점을 개선
+반복문, 조건문, 변수등을 사용할 수 있다.
+동적인 페이지 작성이 가능
+PHP, JSP와 유사하다.
+
+## PUG
+Pug는 Node.js(특히 Express)에서 많이 사용하는 템플릿 엔진(view engine)이다..
+HTML을 더 간결하고 효율적으로 작성할 수 있게 해주는 도구
+
+특징으로는 
+들여쓰기 기반 문법(중괄호, 닫는 태그 없음)
+변수, 반복문, 조건문 등 지원
+.pug 확장자 사용
+
+### HTML방식
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+    <h1>Hello, Akira!</h1>
+    <ul>
+      <li>Apple</li>
+      <li>Banana</li>
+    </ul>
+  </body>
+</html>
+
+### PUG방식
+doctype html
+html
+  head
+    title Hello
+  body
+    h1 Hello, Akira!
+    ul
+      li Apple
+      li Banana
+
+## Nunjucks
+Jinja2(파이썬 템플릿 엔진)와 문법이 거의 동일
+HTML 안에 변수, 조건문, 반복문 등을 쉽게 쓸 수 있음
+Express 등 다양한 프레임워크와 연동 가능
+확장성: 필터, 커스텀 태그 등 추가 가능
+
+### html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile</title>
+  </head>
+  <body>
+    <h1>Welcome, User!</h1>
+    <ul>
+      <li>Item1</li>
+      <li>Item2</li>
+      <li>Item3</li>
+    </ul>
+  </body>
+</html>
+
+### Nunjucks
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>Welcome, {{ username }}!</h1>
+
+    <ul>
+      {% for item in items %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+
+    {% if isAdmin %}
+      <p>You have admin privileges.</p>
+    {% endif %}
+  </body>
+</html>
