@@ -1,0 +1,27 @@
+# mac
+
+### 설치
+아래 링크에서 설치
+https://dev.mysql.com/downloads/mysql/?utm_source=chatgpt.com
+혹은 Brew로 설치
+brew install mysql
+
+### 보안설정
+아래 명령어를 실행
+mysql_secure_installation
+
+실행 후 아래 대로 진행
+1.root 비밀번호 설정/변경 - 비밀번호 입력
+2.익명 사용자 삭제 y → 누구나 접속 불가
+3.root 원격 접속 제한 y → 로컬에서만 root 접속 가능
+4.test DB 삭제 n → 불필요한 테스트 DB 제거
+5.권한 테이블 다시 불러오기 y → 설정 즉시 적용
+
+### 실행
+설치와 설정이 끝났으면 아래 명령어로 실행
+brew services start mysql
+
+정지
+brew services stop mysql
+재시작
+brew services restart mysql
