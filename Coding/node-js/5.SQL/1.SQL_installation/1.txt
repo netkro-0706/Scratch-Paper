@@ -25,3 +25,9 @@ brew services start mysql
 brew services stop mysql
 재시작
 brew services restart mysql
+서비스 상태 확인
+brew services list
+
+### GUI설치
+brew install --cask mysqlworkbench
+UI형태로 조작가능한 툴
