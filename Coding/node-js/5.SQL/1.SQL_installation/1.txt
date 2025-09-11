@@ -28,6 +28,11 @@ brew services restart mysql
 서비스 상태 확인
 brew services list
 
+mysql> 상태로 들어가기
+mysql -u root
+mysql -u root -p
+
+
 ### GUI설치
 brew install --cask mysqlworkbench
 UI형태로 조작가능한 툴
