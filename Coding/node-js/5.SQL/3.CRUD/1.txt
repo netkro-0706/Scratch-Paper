@@ -1,0 +1,29 @@
+#SQL의 CRUD
+
+# users
+##삽입
+INSERT INTO nodejs.users (name, age, married, comment) VALUES ("zero", 24, 0, "자기소개1");
+INSERT INTO nodejs.users (name, age, married, comment) VALUES ("nero", 32, 1, "자기소개2");
+
+##조회
+전체 - SELECT * FROM nodejs.users;
+조건 -
+SELECT name, age, married FROM nodejs.users WHERE married = 1 AND age > 30;
+조회개수 제한 - LIMIT
+SELECT name, age, married FROM nodejs.users ORDER BY age DESC LIMIT 1;
+
+##수정
+- WHERE는 반드시 넣어서 어느것을 바꿀지 명확하게 할 것 - where설정을 안하면 전부 바꾼다.
+UPDATE nodejs.users SET comment = "바뀐 자기소개" WHERE id = 2;
+
+## 삭제
+DELETE FROM nodejs.users WHERE id = 2;
+
+
+
+# comments
+## 삽입
+INSERT INTO nodejs.comments (commenter, comment) VALUES (1, "안녕하세요. zero의 댓글입니다.");
+
+##조회
+SELECT * FROM nodejs.comments;

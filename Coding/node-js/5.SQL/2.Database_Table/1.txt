@@ -1,0 +1,49 @@
+# SQL의 데이터 타입
+INT: 정수 자료형
+VARCHAR: 문자열 자료형
+TEXT: 긴 문자열은 TEXT로 별도 저장
+DATETIME: 날짜 자료형 저장
+TINYINT: -128~127까지 저장하지만 여기서는 1 or 0만 저장하여 bool값 표현으로 한다.
+NOT NULL: 빈값은 불허용
+AUTO_INCREMENT: 숫자 자료형인 경우 다음 로우가 저장될 때 자동으로 1증가
+UNSIGNED: 0과 양수만 허용
+ZEROFILL: 숫자의 자리수가 고정된 경우 빈자리에 0을 넣음
+DEFAULT now(): 날짜 컬럼의 기본값을 현재시간으로
+
+
+
+# 데이터베이스 생성
+CREATE SCHEMA `nodejs` DEFAULT CHARACTER SET utf8;
+
+### nodejs 스키마 선택
+use nodejs
+
+# 테이블 만들기
+CREATE TABLE nodejs.users (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL,
+  age INT UNSIGNED NOT NULL,
+  married TINYINT NOT NULL,
+  comment TEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT now(),
+  PRIMARY KEY(id),
+  UNIQUE INDEX name_UNIQUE (name ASC))
+  COMMENT = "사용자정보"
+  DEFAULT CHARACTER SET = utf8
+  ENGINE = InnoDB;
+
+CREATE TABLE nodejs.comments (
+  id INT NOT NULL AUTO_INCREMENT,
+  commenter INT NOT NULL,
+  comment VARCHAR(100) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT now(),
+  PRIMARY KEY(id),
+  INDEX commenter_idx (commenter ASC),
+  CONSTRAINT commenter
+  FOREIGN KEY (commenter)
+  REFERENCES nodejs.users (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE)
+  COMMENT = "댓글"
+  DEFAULT CHARSET=utf8mb4
+  ENGINE=InnoDB;
