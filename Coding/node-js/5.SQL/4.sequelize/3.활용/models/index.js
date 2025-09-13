@@ -1,10 +1,9 @@
 const Sequelize = require("sequelize")
-require("dotenv").config()
 const User = require("./user")
 const Comment = require("./comment")
 
 const env = process.env.NODE_ENV || "development"
-const config = require("../config/config.json")[env]
+const config = require("../config/config")[env]
 const db = {}
 
 const sequelize = new Sequelize(
@@ -15,13 +14,14 @@ const sequelize = new Sequelize(
 )
 
 db.sequelize = sequelize
+
 db.User = User
 db.Comment = Comment
 
 User.initiate(sequelize)
 Comment.initiate(sequelize)
 
-// User.associate(db)
-// Comment.associate(db)
+User.associate(db)
+Comment.associate(db)
 
 module.exports = db
