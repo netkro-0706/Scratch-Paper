@@ -1,0 +1,76 @@
+시퀄라이즈 사용법
+gt >    in [1, 2, 3]
+lt <    ne 10
+gte >=  age != 10
+lte <=
+======================
+
+
+const { User } = require("../models");
+
+삽입
+User.create({
+  name: "zero",
+  age: 24,
+  married: false,
+  comment: "자기소개1",
+});
+
+조회
+SELECT * FROM nodejs.Users
+-> User.findAll({})
+
+SELECT name, married FROM nodejs.Users
+-> User.findAll({
+  attributes: ["name", "married]
+})
+
+SELCT name, age FROM nodejs.Users WHERE married = 1 AND age > 30;
+-> User.findAll({
+  attributes: ["name", "age"],
+  where: {
+    married: true,
+    age: { [Op.gt]: 30}  // Op객체의 30을 초과(gt)하는
+  }
+})
+
+SELECT id, name FROM users ORER BY age DESC;
+-> User.findALL({
+  attributes: ["id", "name"],
+  order: [["age", "DESC"]],
+});
+
+수정
+UPDATE nodejs.Users SET comment = "바꿀내용" WHERE id = 2;
+User.update({
+  comment: "바꿀내용",  
+}, {
+  where: {id: 2},
+});
+
+삭제
+DELETE FROM nodejs.users WHERE id = 2
+-> User.destory({
+  where: {id: 2},
+})
+
+여러개를 삭제할 때
+User.destory({
+  where: {id: { [Op.in]: [1, 3, 5]}}
+})
+
+
+##관계 쿼리
+이하 2가지 방식으로 사용할 수 있다.
+const user = await User.findOne({
+  include: [{
+    model: Comment
+  }]
+})
+console.log(user.comments) // 자동으로 복수형이 된다.
+
+===================================
+
+const user = await User.findOne({});
+const comments = await user.getComments();
+console.log(comments);

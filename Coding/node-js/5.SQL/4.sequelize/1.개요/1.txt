@@ -1,0 +1,33 @@
+#시퀄라이즈
+시퀄라이즈는 자바스크립트를 SQL로 바꿔준다.
+
+## Model
+Sequlize에서는 SQL보다 데이터 타입을 더 여러종류로 쓸 수 있다.
+VARCHAR(100) -> STRING(100)
+INT -> INTEGER
+TINYINT -> Boolean
+DATETIME -> DATE
+now() -> Sequelize.now
+...
+
+-model/xx.js-
+첫번째 인수는 컬럼을 정의하는것이고
+두번째 인수는 모델의 설정을 정한다.
+
+
+
+## 시퀄라이즈의 관계 정의
+1:N관계 - 1대 다관계로 사용자 한명이 댓긓 여러개를 작성이 가능하다.
+hasMany로 사용
+
+1:1관계 - 사용자 테이블과 사용자 정보 테이블의 관계
+hasOne, belongsTo로 사용
+
+db.User.hasOne(db.Info, { foreignKey: "UserId", sourceKey: "id"})
+db.Info.belongsTo(db.User, { foreignKey: "UserId", targetKey: "id"})
+
+N:M관계 - 다대다 관계
+다대다 관계 특성상 정규화 규칙을 지키기 위해 중간 테이블이 생기게 된다.
+belongsToMany로 사용
+
+db.Post.belongsToMany(db.Hashtag, {through: "PostHashtag"});
