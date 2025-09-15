@@ -1,0 +1,33 @@
+## 빈 폴더에 package.json을 생성
+{
+  "name": "nodebird",
+  "version": "0.0.1",
+  "description": "익스프레스로 만드는 sns",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kim",
+  "license": "ISC",
+}
+
+## 시퀄라이즈와 mysql2드라이버를 설치
+npm i sequelize mysql2 sequelize-cli
+
+## 시퀄라이즈 초기화
+npx sequelize init
+
+## 폴더 및 파일들을 생성
+public
+passport
+routes
+views
+controllers
+app.js
+.env
+
+## 라이브러리 설치
+npm i express cookie-parser express-session morgan multer dotenv nunjucks
+npm i -D nodemon
+
+## app.js 작성
