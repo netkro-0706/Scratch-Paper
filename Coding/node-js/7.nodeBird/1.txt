@@ -31,3 +31,9 @@ npm i express cookie-parser express-session morgan multer dotenv nunjucks
 npm i -D nodemon
 
 ## app.js 작성
+
+## 데이터 베이스 설정
+config/config.json의 password와 database명을 넣어준 뒤에
+npx sequelize db:create
+
+

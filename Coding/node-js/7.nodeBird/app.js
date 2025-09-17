@@ -4,6 +4,7 @@ const morgan = require("morgan")
 const path = require("path")
 const session = require("express-session")
 const dotenv = require("dotenv")
+const { sequelize } = require("./models")
 // TODO: 넌적스 대신 react, vue로 만들어보기
 const nunjucks = require("nunjucks")
 
@@ -20,6 +21,15 @@ nunjucks.configure(app.get("views"), {
   express: app,
   watch: true,
 })
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("success connect database")
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 
 // 로깅 - 개발모드 dev, 배포후에는 combined로 변경
 app.use(morgan("dev"))
