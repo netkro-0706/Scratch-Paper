@@ -4,6 +4,8 @@ const morgan = require("morgan")
 const path = require("path")
 const session = require("express-session")
 const dotenv = require("dotenv")
+const passport = require("passport")
+
 const { sequelize } = require("./models")
 // TODO: 넌적스 대신 react, vue로 만들어보기
 const nunjucks = require("nunjucks")
@@ -12,8 +14,11 @@ const nunjucks = require("nunjucks")
 dotenv.config()
 
 const pageRouter = require("./routes/page")
+const authRouter = require("./routes/auth")
+const passportConfig = require("./passport")
 
 const app = express()
+passportConfig()
 app.set("port", process.env.PORT || 8001)
 app.set("view engine", "html")
 app.set("views", path.join(__dirname, "views"))
@@ -55,8 +60,15 @@ app.use(
     },
   })
 )
+// passport설정은 반드시 session밑에 붙일것
+// initialize에서 req.user, req.login, req.isAuthenticate, req.logout이 자동을 생성됨
+app.use(passport.initialize())
+// connect.sid라는 이름으로 세션 쿠키가 브라우저로 전송
+app.use(passport.session())
 
 app.use("/", pageRouter)
+app.use("/auth", authRouter)
+
 // 404 not found
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} not found router`)

@@ -37,3 +37,25 @@ config/config.json의 password와 database명을 넣어준 뒤에
 npx sequelize db:create
 
 
+# passport
+## express에서 인증을 구현해주는 passport 설치, 비밀번호 암호화해주는 bcrypt설치
+npm i passport passport-local passport-kakao bcrypt
+
+## app.js에 passport설정 해주기
+// passport설정은 반드시 session밑에 붙일것
+app.use(passport.initialize())
+app.use(passport.session())
+
+## 그리고 passport폴더에 index.js를 생성
+
+## routes에 auth.js를 생성
+
+## passport에 localStrategy.js를 생성
+
+## middleware폴더를 만들고 거기에 index.js를 생성
+로그인을 판단하는 미들웨어를 작성
+
+## routes에 auth설정
+
+## controllers에 auth.js 추가
+회원가입을 생성
