@@ -14,7 +14,6 @@ module.exports = () => {
       },
       // done(서버실패, 성공유저, 로직실패)
       async (email, password, done) => {
-        console.log("errrorrr?1111")
         try {
           const exUser = await User.findOne({ where: { email } })
           if (exUser) {
