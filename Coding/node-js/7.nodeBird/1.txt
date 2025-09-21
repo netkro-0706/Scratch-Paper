@@ -59,3 +59,23 @@ app.use(passport.session())
 
 ## controllers에 auth.js 추가
 회원가입을 생성
+
+# passport 로그인 구현 정리
+auth/login 라우터를 통해 로그인 요청이 들어온다.
+라우터에서 passport.authenticate 메서드를 호출
+로그인 전략(LocalStrategy)를 수행한다.
+로그인 성공 시 사용자 정보 객체와 함께 req.login을 호출
+req.login메서드가 passport.serializeUser를 호출한다.
+res.session에 사용자 아이디만 저장해서 세션을 생성하고
+express-sessino에 설정한 대로 브라우저에 connect.sid세션 쿠기를 전송한다.
+로그인 완료
+
+요청이 들어옴
+라우터에 요청이 도달하기 전에 passport.session미들웨어가 passport.deserializeUser메서드를 호출한다.
+connect.sid세션 쿠키를 읽고 세션 객체를 찾아서 req.session으로 만든다.
+req.session에 저장된 아이디로 데이터베이스에서 사용자 조회
+조회된 사용자 정보를 req.user에 저장한다.
+라우터에서 req.user객체 사용이 가능
+
+passport/index.js의 localstrategy와 kakaoStrategy파일은 각각 로컬로그인과 카카오 로그인전략에 대한 파일이다.
+로그인 과정을 처리하는 파일이다.

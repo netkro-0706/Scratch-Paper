@@ -65,6 +65,7 @@ app.use(
 app.use(passport.initialize())
 // connect.sid라는 이름으로 세션 쿠키가 브라우저로 전송
 app.use(passport.session())
+// 브라우저 connect.sid=123129381241
 
 app.use("/", pageRouter)
 app.use("/auth", authRouter)
@@ -75,7 +76,7 @@ app.use((req, res, next) => {
   error.status = 404
   next(error)
 })
-app.use((err, re, res, next) => {
+app.use((err, req, res, next) => {
   res.locals.message = err.message
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {}
   res.status(err.status || 500)

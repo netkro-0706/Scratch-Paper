@@ -9,7 +9,7 @@ const router = express.Router()
 router.post("/join", isNotLoggedIn, join)
 // POST /auth/login
 router.post("/login", isNotLoggedIn, login)
-// POST /auth/logout
-router.post("/logout", isLoggedIn, logout)
+// GET /auth/logout
+router.get("/logout", isLoggedIn, logout)
 
 module.exports = router
