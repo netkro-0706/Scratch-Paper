@@ -1,7 +1,12 @@
 const express = require("express")
 const router = express.Router()
 
-const { renderJoin, renderMain, renderProfile } = require("../controllers/page")
+const {
+  renderJoin,
+  renderMain,
+  renderProfile,
+  renderHashtag,
+} = require("../controllers/page")
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares")
 
 // 공통으로 사용하는 것은 res.locals로 선언
@@ -18,5 +23,6 @@ router.get("/profile", isLoggedIn, renderProfile)
 // 로그인 안된 사람은 회원가입 화면을 볼 수 있다.
 router.get("/join", isNotLoggedIn, renderJoin)
 router.get("/", renderMain)
+router.get("/hashtag", renderHashtag) // hashtag?hashtag=고양이
 
 module.exports = router
