@@ -1,0 +1,91 @@
+const express = require("express")
+const cookieParser = require("cookie-parser")
+const morgan = require("morgan")
+const path = require("path")
+const session = require("express-session")
+const dotenv = require("dotenv")
+const passport = require("passport")
+
+const { sequelize } = require("./models")
+// TODO: 넌적스 대신 react, vue로 만들어보기
+const nunjucks = require("nunjucks")
+
+// process.env 설정
+dotenv.config()
+
+const pageRouter = require("./routes/page")
+const authRouter = require("./routes/auth")
+const postRouter = require("./routes/post")
+const passportConfig = require("./passport")
+
+const app = express()
+passportConfig()
+app.set("port", process.env.PORT || 8001)
+app.set("view engine", "html")
+app.set("views", path.join(__dirname, "views"))
+nunjucks.configure(app.get("views"), {
+  express: app,
+  watch: true,
+})
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("success connect database")
+  })
+  .catch((err) => {
+    console.error(err)
+  })
+
+// 로깅 - 개발모드 dev, 배포후에는 combined로 변경
+app.use(morgan("dev"))
+// public폴더를 static폴더로 변경
+app.use(express.static(path.join(__dirname, "public")))
+app.use("/img", express.static(path.join(__dirname, "uploads")))
+// bodyParser json과 form을 받을 수 있게 한다.
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
+// cookieParser 쿠기 받을 수 있게 한다.
+app.use(cookieParser(process.env.COOKIE_SECRET))
+
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      // 보안적으로 자바스크립트에서 접근못하게
+      httpOnly: true,
+      // https로 적용할 경우 true
+      secure: false,
+    },
+  })
+)
+// passport설정은 반드시 session밑에 붙일것
+// initialize에서 req.user, req.login, req.isAuthenticate, req.logout이 자동을 생성됨
+app.use(passport.initialize())
+// connect.sid라는 이름으로 세션 쿠키가 브라우저로 전송
+app.use(passport.session())
+// 브라우저 connect.sid=123129381241
+
+app.use("/", pageRouter)
+app.use("/auth", authRouter)
+app.use("/post", postRouter)
+
+// 404 not found
+app.use((req, res, next) => {
+  const error = new Error(`${req.method} ${req.url} not found router`)
+  error.status = 404
+  next(error)
+})
+app.use((err, req, res, next) => {
+  res.locals.message = err.message
+  res.locals.error = process.env.NODE_ENV !== "production" ? err : {}
+  res.status(err.status || 500)
+  res.render("error")
+})
+
+app.listen(app.get("port"), () => {
+  console.log(`http:localhost:${app.get("port")} 번에서 대기중`)
+})
