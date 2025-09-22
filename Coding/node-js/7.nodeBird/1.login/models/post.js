@@ -4,7 +4,7 @@ class Post extends Sequelize.Model {
   static initiate(sequelize) {
     Post.init(
       {
-        constent: {
+        content: {
           type: Sequelize.STRING(140),
           allowNull: false,
         },
