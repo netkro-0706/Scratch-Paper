@@ -13,7 +13,7 @@ exports.createToken = async (req, res, next) => {
         },
       ],
     })
-    if (!domain) {
+    if (!domain || !domain.User) {
       return res.status(401).json({
         code: 401,
         message: "등록되지 않은 도메인 입니다. 먼저 도메인을 등록하세요.",
@@ -26,7 +26,7 @@ exports.createToken = async (req, res, next) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "30m",
+        expiresIn: "5s",
         issuer: "nodebird",
       }
     )

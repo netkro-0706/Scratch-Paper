@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken")
 const rateLimit = require("express-rate-limit")
+const cors = require("cors")
+const { Domain } = require("../models")
 
 // 로그인 했는지 판단하는 미들웨어
 exports.isLoggedIn = (req, res, next) => {
@@ -44,26 +46,34 @@ exports.verifyToken = (req, res, next) => {
   }
 }
 
-exports.apiLimiter = async (req, res, next) => {
-  let user
-  if (res.locals.decoded.id) {
-    user = await User.findOne({ where: { id: res.locals.decode.id } })
-  }
-  rateLimit({
-    windowMs: 60 * 1000,
-    max: user.type === "premium" ? 1000 : 10,
-    handler(req, res) {
-      res.status(this.statusCode).json({
-        code: this.statusCode,
-        message: "1분에 한번만 요청 가능합니다.",
-      })
-    },
-  })(req, res, next)
-}
+exports.apiLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1분
+  max: 10,
+  handler(req, res) {
+    res.status(this.statusCode).json({
+      code: this.statusCode, // 기본값 429
+      message: "1분에 열 번만 요청할 수 있습니다.",
+    })
+  },
+})
 
 exports.deprecated = (req, res) => {
   res.status(410).json({
     code: 410,
     message: "새로운 버전이 나왔습니다. 새로운 버전을 사용하여 주십시오.",
   })
+}
+
+exports.corsWhenDomainMatches = async (req, res, next) => {
+  const domain = await Domain.findOne({
+    where: { host: new URL(req.get("origin")).host },
+  })
+  if (domain) {
+    cors({
+      origin: req.get("origin"),
+      credentials: true,
+    })(req, res, next)
+  } else {
+    next()
+  }
 }
