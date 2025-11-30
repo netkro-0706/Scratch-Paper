@@ -1,0 +1,44 @@
+1. 맥북 하단 dock에서 필요없는것들 다 지우기
+
+### homebrew 설치
+
+homebrew web에서 명령어 찾아서 터미널에 붙여 설치
+설치 후 나오는 eval... 터미널 상에서 복사 후 붙여넣기
+재시작
+
+### 여러 어플 설치
+
+brew install --cask firefox visual-studio-code google-chrome slack iterm2
+
+### iterm
+
+preferences -> Appearance -> Theme를 Minimal로 변경
+Profiles -> Sessions -> StatusBar를 활성 -> 그중에서 Battery Level, CPU, Memory, Network를 하단으로 이동
+Profiles -> colorskin -> 원하는 색상
+
+### Oh my zsh
+
+zsh web에 가서 설치 명령어 iterm에 설치
+powerlevel 10k로 검색해서 이동
+installation에서 oh my zsh로 이동하고 clone the repository의 코드를 클론
+code ~/.zshrc에서 ZSH_THEME를 powerlevel10k/powerlevel10k로 변경
+
+meslo nerd font -> Yes
+아이콘들이 잘 보이면 yes
+그 후 나오는 것들은 취향대로 하는데 잘 못 선택했을시 r로 다시 시작 가능
+
+### 다른 것들 설치
+
+brew install python3 go pipenv nvm gh
+설치 후 nvm관련해서 export NVM_DIR=$HOME/.nvm" .... 이라고 나오는데 이걸 zshrc 마지막에 붙여놓을 것
+터미널을 재시작
+
+nvm ls-remote로 설치 가능한 node버전을 확인하고 원하는 버전을 설치
+
+### gh
+gh auth login - 이건 회사에서 설정해줄 것 같으니 안해도 될듯
+
+확장도구
+GitLens, material Icon Theme, Comunity Material Theme ...
+
+oh my zsh 폰트가 깨지면 terminal font에 들어가서 intergrated font family를 찾아서 MesloLGS NF를 입력
